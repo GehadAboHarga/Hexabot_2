@@ -43,14 +43,14 @@ void setup() {
 }
 
 void loop() {
-  for (uint8_t i = 0; i < SONAR_NUM; i++) { // Loop through all the sensors.
-    if (millis() >= pingTimer[i]) {         // Is it this sensor's time to ping?
-      pingTimer[i] += PING_INTERVAL * SONAR_NUM;  // Set next time this sensor will be pinged.
-      if (i == 0 && currentSensor == SONAR_NUM - 1) oneSensorCycle(); // Sensor ping cycle complete, do something with the results.
-      sonar[currentSensor].timer_stop();          // Make sure previous timer is canceled before starting a new ping (insurance).
-      currentSensor = i;                          // Sensor being accessed.
-      cm[currentSensor] = MAX_DISTANCE;                      // Make distance zero in case there's no ping echo for this sensor.
-      sonar[currentSensor].ping_timer(echoCheck); // Do the ping (processing continues, interrupt will call echoCheck to look for echo).
+  for (uint8_t i = 0; i < SONAR_NUM; i++) {                              // Loop through all the sensors.
+    if (millis() >= pingTimer[i]) {                                  // Is it this sensor's time to ping?
+      pingTimer[i] += PING_INTERVAL * SONAR_NUM;                      // Set next time this sensor will be pinged.
+      if (i == 0 && currentSensor == SONAR_NUM - 1) oneSensorCycle();   // Sensor ping cycle complete, do something with the results.
+      sonar[currentSensor].timer_stop();                               // Make sure previous timer is canceled before starting a new ping (insurance).
+      currentSensor = i;                                              // Sensor being accessed.
+      cm[currentSensor] = MAX_DISTANCE;                                  // Make distance zero in case there's no ping echo for this sensor.
+      sonar[currentSensor].ping_timer(echoCheck);                    // Do the ping (processing continues, interrupt will call echoCheck to look for echo).
     }
   }
   // Other code that *DOESN'T* analyze ping results can go here.
